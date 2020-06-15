@@ -1,0 +1,19 @@
+storage:
+  host: 127.0.0.1
+  username: root
+  password: toor
+  database: anonymizer
+anonymize:
+  core_users:
+    first_name:
+      type: firstname
+    last_name:
+      type: lastname
+    middle_name:
+      type: middlename
+    bit_academy_start_date:
+      type: date
+      data: 22-2-2020
+    password:
+      type: static
+      data: $2a$10$/2BXXQ3fmNBGq9sB41epNu95YVup5Dao2RDnzdBvG7GNAG27C/Oc2
