@@ -1,4 +1,7 @@
-import data_anonymizer
+import data_anonymizer as data
 
 if __name__ == '__main__':
-    data_anonymizer.main()
+    anonymizer = data.Anonymize()
+    # anonymizer.populate_database()
+    anonymizer.anonymize_database()
+    anonymizer.export_database()

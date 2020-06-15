@@ -1,5 +1,6 @@
 from ruamel.yaml import YAML
 
+
 class config:
     def __init__(self, fileobject):
         self.fileobject = fileobject
@@ -14,6 +15,7 @@ class config:
 
     def columns(self, table):
         return self.tables()[table]
+
 
 # Testing
 if __name__ == "__main__":
