@@ -6,11 +6,15 @@ from .informationgenerator import get_first_name, get_phone_number, get_last_nam
 
 class Anonymize:
 
-    def __init__(self):
-        self.host = "127.0.0.1"
-        self.user = "root"
-        self.password = "toor"
-        self.database = "anonymizer"
+    def __init__(self, host='127.0.0.1', username='user', 
+    password='password', database='testdatabase', infile=None, outfile=None):
+        self.host = host
+        self.user = username
+        self.password = password
+        self.database = database
+        self.infile = infile
+        self.outfile = outfile
+
         self.mysql_connection = self.initialise_database_connection()
         self.cursor = self.mysql_connection.cursor()
 
@@ -22,16 +26,12 @@ class Anonymize:
         )
 
     def populate_database(self):
-        if not len(sys.argv) > 1 or not sys.argv[1].endswith('.sql'):
-            print('missing sql dump')
-            exit(1)
-
         self.cursor.execute("drop database if exists {}".format(self.database))
         self.cursor.execute("create database {}".format(self.database))
         self.mysql_connection.commit()
         self.cursor.execute("use {}".format(self.database))
 
-        with open(sys.argv[1], 'r') as f:
+        with open(self.infile, 'r') as f:
             sql_dump = f.read()
 
         command = subprocess.run(
@@ -41,11 +41,10 @@ class Anonymize:
         print(command.stdout)
 
     def export_database(self):
-        output_filename = "out.sql"
         command_output = subprocess.check_output(
             ['mysqldump', '-h', self.host, '-u', self.user, '-p' + self.password, self.database])
 
-        with open(output_filename, 'wb') as f:
+        with open(self.outfile, 'wb') as f:
             f.write(command_output)
 
     def anonymize_database(self):
