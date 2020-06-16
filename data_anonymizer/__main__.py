@@ -36,8 +36,9 @@ if __name__ == '__main__':
     database = configreader.storage()['database']
 
     anonymizer = data.Anonymize(host=host, username=username, 
-                                password=password, database=database, 
-                                infile=infile, outfile=outfile)
+                                password=password, database=database,
+                                configfile=configfile, infile=infile, 
+                                outfile=outfile)
     anonymizer.populate_database()
     anonymizer.anonymize_database()
     anonymizer.export_database()

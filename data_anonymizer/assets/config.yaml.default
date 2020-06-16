@@ -32,14 +32,14 @@ anonymize:
 #
     core_users:
         first_name:
-            type: firstname
+            type: first_name
         last_name:
-            type: lastname
+            type: last_name
         middle_name:
-            type: middlename
+            type: middle_name
         bit_academy_start_date:
             type: date
             data: 22-2-2020
         password:
-            type: static
+            type: string
             data: $2a$10$/2BXXQ3fmNBGq9sB41epNu95YVup5Dao2RDnzdBvG7GNAG27C/Oc2
