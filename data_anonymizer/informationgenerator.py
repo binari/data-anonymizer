@@ -20,3 +20,21 @@ def get_phone_number():
 def get_last_name():
     last_names = open('data_anonymizer/assets/last_names.json')
     return random.choice(json.load(last_names))
+
+
+def get_middle_name():
+    return "none"
+
+
+def get_anonymized_data(column):
+    if column["type"] in ["string", "date", "int"]:
+        return column["data"]
+
+    method_name = "get_{}".format(column["type"])
+    possibles = globals().copy()
+    possibles.update(locals())
+    method = possibles.get(method_name)
+    if not method:
+        print("invalid type {}".format(column["type"]))
+        return
+    return method()

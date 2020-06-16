@@ -1,7 +1,8 @@
 import mysql.connector
 import sys
 import subprocess
-from .informationgenerator import get_first_name, get_phone_number, get_last_name
+from .ConfigReader import config
+from .informationgenerator import get_anonymized_data
 
 
 class Anonymize:
@@ -12,7 +13,8 @@ class Anonymize:
         self.password = "toor"
         self.database = "anonymizer"
         self.mysql_connection = self.initialise_database_connection()
-        self.cursor = self.mysql_connection.cursor()
+        self.config = config(open('data_anonymizer/config.yml', 'r'))
+        self.cursor = self.mysql_connection.cursor(buffered=True)
 
     def initialise_database_connection(self):
         return mysql.connector.connect(
@@ -49,14 +51,24 @@ class Anonymize:
             f.write(command_output)
 
     def anonymize_database(self):
-        self.cursor.execute("select * from anonymizer.core_users")
-        rows = self.cursor.fetchall()
+        tables = self.config.tables()
 
-        for row in rows:
-            name = get_first_name()
-            sql = '''UPDATE anonymizer.core_users SET first_name = %s where id = %s '''
-            try:
-                self.cursor.execute(sql, (name, row[0]))
-            except Exception as e:
-                print(e)
-        self.mysql_connection.commit()
+        for table in tables:
+            self.cursor.execute("select * from anonymizer.{}".format(table))
+            rows = self.cursor.fetchall()
+            columns = self.config.columns(table)
+            iterator = self.config.iterator(table)
+            self.update_database(rows, iterator, columns, table)
+
+    def update_database(self, rows, iterator, columns, table):
+        for column in columns:
+            for row in rows:
+                column_data = columns[column]
+                value = get_anonymized_data(column_data)
+                sql = '''UPDATE anonymizer.{} SET {} = '{}' where {} = '{}' '''.format(
+                    table, column, value, iterator, row[0])
+                try:
+                    self.cursor.execute(sql)
+                    self.mysql_connection.commit()
+                except Exception as e:
+                    print(e)
