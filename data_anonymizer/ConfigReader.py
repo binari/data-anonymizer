@@ -14,7 +14,10 @@ class config:
         return self.yamlconfig['anonymize']
 
     def columns(self, table):
-        return self.tables()[table]
+        return self.tables()[table]['columns']
+
+    def iterator(self, table):
+        return self.tables()[table]['iterator']['name']
 
 
 # Testing
