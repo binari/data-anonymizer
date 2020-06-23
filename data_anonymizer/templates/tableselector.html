@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
+    </head>
+    <body>
+        <h1>Testing</h1>
+        <form action="{{ url_for('columnselector') }}" method="POST">
+            <table>
+            {% for table in tables %}
+            <tr>
+                <td><input type="checkbox" value="{{ loop.index }}" name="{{ table }}"></td>
+                <td>{{ table }}</td>
+            </tr>
+            {% endfor %}
+            </table>
+            <button type="submit">SUBMIT PLEASE</button>
+        </form>
+    </body>
+</html>
