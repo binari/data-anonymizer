@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
+    </head>
+    <body>
+        <h1>Testing</h1>
+        <form action="{{ url_for('save_storage') }}" method="POST">
+            <input type="text" name="host">
+            <input type="text" name="username">
+            <input type="password" name="password">
+            <input type="text" name="database">
+            <button type="submit">SUBMIT PLEASE</button>
+        </form>
+    </body>
+</html>

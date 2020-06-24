@@ -3,42 +3,61 @@ import os.path
 import argparse
 import data_anonymizer as data
 from .ConfigReader import config
+from .Gui import gui
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(prog='python -m data_anonymizer')
     
     parser.add_argument('-c', '--config', dest='configfile', 
-                        required=True, help="Configuration file")
+                        help="Configuration file")
     parser.add_argument('-i', '--input', dest='inputfile', 
-                        required=True, help="SQL dump from database")
+                        help="SQL dump from database")
     parser.add_argument('-o', '--output', dest='outputfile', 
-                        required=True, help="Anonymized SQL dump")
+                        help="Anonymized SQL dump")
+    parser.add_argument('-g', '--gui', dest='gui', action='store_true',
+                        help="Start GUI")
+    parser.add_argument('--host', dest='host')
+    parser.add_argument('--user', dest='username')
+    parser.add_argument('--pass', dest='password')
+    parser.add_argument('--db', dest='database')
 
     args = parser.parse_args()
 
-    configfile = args.configfile
-    infile = args.inputfile
-    outfile = args.outputfile
+    if args.configfile is not None:
+        if not os.path.isfile(infile):
+            print(str(infile) + " is not a valid file")
+            sys.exit()
+        if not os.path.isfile(configfile):
+            print(str(configfile) + " is not a valid file")
+            sys.exit()
 
-    if not os.path.isfile(infile):
-        print(str(infile) + " is not a valid file")
+        configfile = args.configfile
+        infile = args.inputfile
+        outfile = args.outputfile
+
+        configreader = config(open(configfile, 'r'))
+        host = configreader.storage()['host']
+        username = configreader.storage()['username']
+        password = configreader.storage()['password']
+        database = configreader.storage()['database']
+        print("todo")
+    elif args.gui:
+        storage = [args.host, args.username, args.password, args.database]
+        if all(v is None for v in storage):
+            parser.error("Not all arguments defined")
+            sys.exit()
+        
+        gui(args.host, args.username, args.password, args.database)
+    else:
+        parser.error("Select either config file (-c/--config) or GUI (-g/--gui)")
         sys.exit()
 
-    if not os.path.isfile(configfile):
-        print(str(configfile) + " is not a valid file")
-        sys.exit()
 
-    configreader = config(open(configfile, 'r'))
 
-    host = configreader.storage()['host']
-    username = configreader.storage()['username']
-    password = configreader.storage()['password']
-    database = configreader.storage()['database']
-
-    anonymizer = data.Anonymize(host=host, username=username, 
-                                password=password, database=database,
-                                configfile=configfile, infile=infile, 
-                                outfile=outfile)
-    anonymizer.populate_database()
-    anonymizer.anonymize_database()
-    anonymizer.export_database()
+    # anonymizer = data.Anonymize(host=host, username=username, 
+    #                             password=password, database=database,
+    #                             configfile=configfile, infile=infile, 
+    #                             outfile=outfile)
+    # anonymizer.populate_database()
+    # anonymizer.anonymize_database()
+    # anonymizer.export_database()

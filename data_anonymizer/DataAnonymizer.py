@@ -17,8 +17,12 @@ class Anonymize:
         self.outfile = outfile
 
         self.mysql_connection = self.initialise_database_connection()
-        self.config = config(open(configfile, 'r'))
+        if configfile is not None:
+            self.config = config(open(configfile, 'r'))
         self.cursor = self.mysql_connection.cursor(buffered=True)
+
+        ############################# TEMP
+        self.cursor.execute("use {}".format(self.database))
 
     def initialise_database_connection(self):
         return mysql.connector.connect(
@@ -41,6 +45,17 @@ class Anonymize:
             stdout=subprocess.PIPE, input=sql_dump, encoding='utf-8')
 
         print(command.stdout)
+
+    def get_tables(self):
+        self.cursor.execute("show tables")
+        tables = []
+        for table in self.cursor.fetchall():
+            tables.append(table[0])
+        return tables
+
+    def get_columns(self, table):
+        self.cursor.execute("SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'{}'".format(table))
+        return self.cursor.fetchall()
 
     def export_database(self):
         command_output = subprocess.check_output(

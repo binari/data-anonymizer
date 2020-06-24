@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
+    </head>
+    <body>
+        <div>
+            <h1>Testing</h1>
+            <form action="{{ url_for('action') }}" method="POST">
+                {% for table in tables %}
+                <h3>{{ table }}</h3>
+                <label for="iterator{{table}}">Iterator</label>
+                <select name="*iterator*{{table}}" id="iterator{{table}}">
+                    {% for column in tables[table] %}
+                    <option value="{{ column }}">{{ column }}</option>
+                    {% endfor %}
+                </select>
+                <table>
+                    {% for column in tables[table] %}
+                    <tr>
+                        <td>{{ column }}</td>
+                        <td>
+                            <select name="{{ table }}!?!{{ column }}!?!type">
+                                <option value="None">No Change</option>
+                                <option value="first_name">first_name</option>
+                                <option value="middle_name">middle_name</option>
+                                <option value="last_name">last_name</option>
+                                <option value="phone_number">phone_number</option>
+                            </select>
+                            <input type="text" name="{{ table }}!?!{{ column }}!?!data">
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% endfor %}
+                <button type="submit">SUBMIT PLEASE</button>
+            </form>
+        </div>
+    </body>
+</html>
