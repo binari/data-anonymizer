@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Ignoring config file
+data_anonymizer/config.yml
+
 # C extensions
 *.so
 

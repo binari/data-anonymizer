@@ -7,8 +7,8 @@ from .informationgenerator import get_anonymized_data
 
 class Anonymize:
 
-    def __init__(self, host='127.0.0.1', username='user', 
-    password='password', database='testdatabase', configfile=None, infile=None, outfile=None):
+    def __init__(self, host='127.0.0.1', username='user',
+                 password='password', database='testdatabase', configfile=None, infile=None, outfile=None):
         self.host = host
         self.user = username
         self.password = password
@@ -40,10 +40,16 @@ class Anonymize:
         with open(self.infile, 'r') as f:
             sql_dump = f.read()
 
+        remove_definers = subprocess.run(
+            ['sed', '-i', 's/DEFINER=`[^`][^`]*`@`[^`][^`]*`//g', self.infile],
+            stdout=subprocess.PIPE,
+        )
+
         command = subprocess.run(
             ['mysql', '-h', self.host, '-u', self.user, '-p' + self.password, self.database],
             stdout=subprocess.PIPE, input=sql_dump, encoding='utf-8')
 
+        print(remove_definers.stdout)
         print(command.stdout)
 
     def get_tables(self):

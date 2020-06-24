@@ -5,14 +5,13 @@ import data_anonymizer as data
 from .ConfigReader import config
 from .Gui import gui
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(prog='python -m data_anonymizer')
-    
-    parser.add_argument('-c', '--config', dest='configfile', 
+
+def add_arguments(parser):
+    parser.add_argument('-c', '--config', dest='configfile',
                         help="Configuration file")
-    parser.add_argument('-i', '--input', dest='inputfile', 
+    parser.add_argument('-i', '--input', dest='inputfile',
                         help="SQL dump from database")
-    parser.add_argument('-o', '--output', dest='outputfile', 
+    parser.add_argument('-o', '--output', dest='outputfile',
                         help="Anonymized SQL dump")
     parser.add_argument('-g', '--gui', dest='gui', action='store_true',
                         help="Start GUI")
@@ -21,43 +20,54 @@ if __name__ == '__main__':
     parser.add_argument('--pass', dest='password')
     parser.add_argument('--db', dest='database')
 
-    args = parser.parse_args()
+    return parser.parse_args()
+
+
+def validate_file(infile, configfile):
+    if not os.path.isfile(infile):
+        print(str(infile) + " is not a valid file")
+        sys.exit()
+    if not os.path.isfile(configfile):
+        print(str(configfile) + " is not a valid file")
+        sys.exit()
+
+
+def anonymize(configfile):
+    config_reader = config(open(configfile, 'r'))
+    host = config_reader.storage()['host']
+    username = config_reader.storage()['username']
+    password = config_reader.storage()['password']
+    database = config_reader.storage()['database']
+
+    anonymizer = data.Anonymize(host=host, username=username,
+                                password=password, database=database,
+                                configfile=configfile, infile=infile,
+                                outfile=outfile)
+    anonymizer.populate_database()
+    #anonymizer.anonymize_database()
+    anonymizer.export_database()
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(prog='python -m data_anonymizer')
+    args = add_arguments(parser)
 
     if args.configfile is not None:
-        if not os.path.isfile(infile):
-            print(str(infile) + " is not a valid file")
-            sys.exit()
-        if not os.path.isfile(configfile):
-            print(str(configfile) + " is not a valid file")
-            sys.exit()
-
         configfile = args.configfile
         infile = args.inputfile
         outfile = args.outputfile
 
-        configreader = config(open(configfile, 'r'))
-        host = configreader.storage()['host']
-        username = configreader.storage()['username']
-        password = configreader.storage()['password']
-        database = configreader.storage()['database']
-        print("todo")
+        validate_file(infile, configfile)
+        anonymize(configfile)
     elif args.gui:
         storage = [args.host, args.username, args.password, args.database]
         if all(v is None for v in storage):
             parser.error("Not all arguments defined")
             sys.exit()
-        
+
         gui(args.host, args.username, args.password, args.database)
     else:
         parser.error("Select either config file (-c/--config) or GUI (-g/--gui)")
         sys.exit()
 
 
-
-    # anonymizer = data.Anonymize(host=host, username=username, 
-    #                             password=password, database=database,
-    #                             configfile=configfile, infile=infile, 
-    #                             outfile=outfile)
-    # anonymizer.populate_database()
-    # anonymizer.anonymize_database()
-    # anonymizer.export_database()

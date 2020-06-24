@@ -1,7 +1,7 @@
 storage:
   host: 127.0.0.1
-  username: robin
-  password: password
+  username: root
+  password: toor
   database: anonymizer
 anonymize:
   core_users:
