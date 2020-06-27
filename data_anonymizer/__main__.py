@@ -65,7 +65,7 @@ if __name__ == '__main__':
             parser.error("Not all arguments defined")
             sys.exit()
 
-        gui(args.host, args.username, args.password, args.database)
+        gui(args.host, args.username, args.password, args.database, args.inputfile)
     else:
         parser.error("Select either config file (-c/--config) or GUI (-g/--gui)")
         sys.exit()

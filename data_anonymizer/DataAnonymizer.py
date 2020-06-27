@@ -44,12 +44,12 @@ class Anonymize:
             ['sed', '-i', 's/DEFINER=`[^`][^`]*`@`[^`][^`]*`//g', self.infile],
             stdout=subprocess.PIPE,
         )
+        print(remove_definers.stdout)
 
         command = subprocess.run(
             ['mysql', '-h', self.host, '-u', self.user, '-p' + self.password, self.database],
-            stdout=subprocess.PIPE, input=sql_dump, encoding='utf-8')
-
-        print(remove_definers.stdout)
+            stdout=subprocess.PIPE, input=sql_dump, encoding='utf-8'
+        )
         print(command.stdout)
 
     def get_tables(self):

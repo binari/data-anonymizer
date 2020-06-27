@@ -1,4 +1,4 @@
-def gui(host, username, password, database):
+def gui(host, username, password, database, infile):
     import data_anonymizer as data
     import io
     from flask import Flask, render_template, url_for, request, session, send_file
@@ -6,9 +6,9 @@ def gui(host, username, password, database):
     import data_anonymizer as data
 
     anonymizer = data.Anonymize(host=host, username=username, 
-                                password=password, database=database)
-    # anonymizer.populate_database()
+                                password=password, database=database, infile=infile)
 
+    anonymizer.populate_database()
     app = Flask(__name__.split('.')[0])
 
     app.secret_key = b'greghrwr32t54t3wrfewy34'
