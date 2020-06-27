@@ -14,16 +14,5 @@ anonymize:
         type: last_name
       middle_name:
         type: middle_name
-      bit_academy_start_date:
-        type: date
-        data: 22-3-2020
-      password:
-        type: string
-        data: $2a$10$/2BXXQ3fmNBGq9sB41epNu95YVup5Dao2RDnzdBvG7GNAG27C/Oc2
-  core_credits:
-    iterator:
-      name: user_id
-    columns:
-      value:
-        type: int
-        data: 10
+      email:
+        type: email

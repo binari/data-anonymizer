@@ -44,7 +44,7 @@ def anonymize(configfile):
                                 configfile=configfile, infile=infile,
                                 outfile=outfile)
     anonymizer.populate_database()
-    #anonymizer.anonymize_database()
+    anonymizer.anonymize_database()
     anonymizer.export_database()
 
 
