@@ -1,20 +1,39 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
-    </head>
-    <body>
-        <h1>Testing</h1>
-        <form action="{{ url_for('columnselector') }}" method="POST">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
+
+    {# Scripts #}
+    <script type="text/javascript" src="../static/js/jquery.js"></script>
+    <script type="text/javascript" src="../static/js/main.js"></script>
+</head>
+<body>
+<div class="container">
+
+    <div class="vh-1">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active">Table Selector</li>
+        </ol>
+    </div>
+
+    <form action="{{ url_for('columnselector') }}" method="POST">
+        <div class="custom-control custom-switch col">
+            <input type="checkbox" class="custom-control-input" id="select_all" name="select_all">
+            <label class="custom-control-label" for="select_all">Select all</label>
+        </div>
+        <div class="container row row-cols-3">
             <table>
-            {% for table in tables %}
-            <tr>
-                <td><input type="checkbox" value="{{ loop.index }}" name="{{ table }}"></td>
-                <td>{{ table }}</td>
-            </tr>
-            {% endfor %}
+                {% for table in tables %}
+                    <div class="custom-control custom-switch col">
+                        <input type="checkbox" class="custom-control-input switch" id="{{ table }}"
+                               name="{{ table }}">
+                        <label class="custom-control-label" for="{{ table }}">{{ table }}</label>
+                    </div>
+                {% endfor %}
             </table>
-            <button type="submit">SUBMIT PLEASE</button>
-        </form>
-    </body>
+        </div>
+        <button type="submit" class="btn btn-primary vh-1">Submit</button>
+    </form>
+</div>
+</body>
 </html>
