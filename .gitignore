@@ -147,3 +147,5 @@ cython_debug/
 *.sql
 
 prototype/
+
+config.yml
