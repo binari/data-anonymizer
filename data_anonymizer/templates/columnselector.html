@@ -1,22 +1,35 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
-    </head>
-    <body>
-        <div>
-            <h1>Testing</h1>
-            <form action="{{ url_for('action') }}" method="POST">
-                {% for table in tables %}
-                <h3>{{ table }}</h3>
-                <label for="iterator{{table}}">Iterator</label>
-                <select name="*iterator*{{table}}" id="iterator{{table}}">
-                    {% for column in tables[table] %}
-                    <option value="{{ column }}">{{ column }}</option>
-                    {% endfor %}
-                </select>
-                <table>
-                    {% for column in tables[table] %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
+</head>
+<body>
+<div class="container">
+
+    <div class="vh-1">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../">Table Selector</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Column Selector</li>
+        </ol>
+    </div>
+
+    <form action="{{ url_for('action') }}" method="POST">
+        {% for table in tables %}
+            <h3>{{ table }}</h3>
+            <table>
+                <tr>
+                    <td>
+                        <label for="iterator{{ table }}">Iterator</label>
+                    </td>
+                    <td>
+                        <select class="custom-select" name="*iterator*{{ table }}" id="iterator{{ table }}">
+                            {% for column in tables[table] %}
+                                <option value="{{ column }}">{{ column }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                {% for column in tables[table] %}
                     <tr>
                         <td>{{ column }}</td>
                         <td>
@@ -30,11 +43,11 @@
                             <input type="text" name="{{ table }}!?!{{ column }}!?!data">
                         </td>
                     </tr>
-                    {% endfor %}
-                </table>
                 {% endfor %}
-                <button type="submit">SUBMIT PLEASE</button>
-            </form>
-        </div>
-    </body>
+            </table>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+</body>
 </html>
