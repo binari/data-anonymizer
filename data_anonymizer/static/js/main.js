@@ -19,3 +19,12 @@ $(document).ready(function () {
         }
     });
 });
+
+function checkFormValue(value, column) {
+    const textInput = document.getElementById(column);
+    if(value === "phone_number") {
+        textInput.disabled = false;
+    } else {
+        textInput.disabled = true;
+    }
+};
