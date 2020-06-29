@@ -36,7 +36,7 @@
                 {% for column in tables[table] %}
                     <tr>
                         <td>{{ column }}</td>
-                        <td class="flex">
+                        <td>
                             <select name="{{ table }}!?!{{ column }}!?!type" onChange="checkFormValue(this.value, '{{ table }}!?!{{ column }}');" class="col-sm">
                                 <option value="None">No Change</option>
                                 <option value="first_name">first_name</option>

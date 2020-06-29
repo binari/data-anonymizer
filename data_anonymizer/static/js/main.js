@@ -20,9 +20,11 @@ $(document).ready(function () {
     });
 });
 
-function checkFormValue(value, column) {
-    const textInput = document.getElementById(column);
-    if(value === "phone_number") {
+function checkFormValue(formValue, id) {
+    const textInput = document.getElementById(id);
+    enableInput = ["bool", "string", "int", "date"];
+    
+    if(enableInput.includes(formValue)) {
         textInput.disabled = false;
     } else {
         textInput.disabled = true;
