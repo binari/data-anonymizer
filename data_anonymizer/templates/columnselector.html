@@ -2,6 +2,10 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
+
+    {# Scripts #}
+    <script type="text/javascript" src="../static/js/jquery.js"></script>
+    <script type="text/javascript" src="../static/js/main.js"></script>
 </head>
 <body>
 <div class="container">
@@ -32,15 +36,20 @@
                 {% for column in tables[table] %}
                     <tr>
                         <td>{{ column }}</td>
-                        <td>
-                            <select name="{{ table }}!?!{{ column }}!?!type">
+                        <td class="flex">
+                            <select name="{{ table }}!?!{{ column }}!?!type" onChange="checkFormValue(this.value, '{{ table }}!?!{{ column }}');" class="col-sm">
                                 <option value="None">No Change</option>
                                 <option value="first_name">first_name</option>
                                 <option value="middle_name">middle_name</option>
                                 <option value="last_name">last_name</option>
                                 <option value="phone_number">phone_number</option>
                             </select>
-                            <input type="text" name="{{ table }}!?!{{ column }}!?!data">
+                            <input 
+                                class="form-control col-sm"
+                                type="text" 
+                                name="{{ table }}!?!{{ column }}!?!data" 
+                                id="{{ table }}!?!{{ column }}"
+                                disabled>
                         </td>
                     </tr>
                 {% endfor %}
