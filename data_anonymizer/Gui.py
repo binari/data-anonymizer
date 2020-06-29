@@ -26,7 +26,7 @@ def gui(host, username, password, database, infile):
         tables = {}
         for table in request.form:
             tables[table] = []
-            for column in anonymizer.get_columns('core_users'):
+            for column in anonymizer.get_columns(table):
                 tables[table].append(column[3])
 
         return render_template('columnselector.html', tables=tables)
