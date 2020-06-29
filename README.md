@@ -4,29 +4,23 @@ A Python module that anonymizes SQL dumps
 
 ## Installation
 
-Install the Python module using the setup.py
+Install the Python module using pip
 
+```bash
+pip install .
 ```
-python setup.py install
-```
-
- or with pip
-
- ```
- pip install .
- ```
 
 ## Usage
 
 First we will need to generate a configuration file using the GUI.
 
 ```bash
-python -m data_anonymizer -g --host 127.0.0.1 --user root --pass toor --db anonymize
+python -m data_anonymizer -g -i dump.sql --host 127.0.0.1 --user root --pass toor --db anonymize
 ```
 
 This will open a local webserver at <http://127.0.0.1:8000>, follow the instructions onscreen and download the configuration file.
 
-Now we can create an anonymized using the configuration file we just generated
+Now we can create an anonymized SQL dump using the configuration file we just generated
 
 ```bash
 python -m data_anonymizer -c config.yml -i dump.sql -o anonymized.sql
