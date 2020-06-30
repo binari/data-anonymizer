@@ -1,7 +1,7 @@
 def gui(host, username, password, database, infile):
     import data_anonymizer as data
     import io
-    from flask import Flask, render_template, url_for, request, session, send_file
+    from flask import Flask, render_template, url_for, request, send_file
     from ruamel.yaml import YAML
     import data_anonymizer as data
 
@@ -10,8 +10,6 @@ def gui(host, username, password, database, infile):
 
     anonymizer.populate_database()
     app = Flask(__name__.split('.')[0])
-
-    app.secret_key = b'greghrwr32t54t3wrfewy34'
 
     @app.route('/')
     def root():
