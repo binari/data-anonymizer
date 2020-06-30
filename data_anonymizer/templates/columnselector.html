@@ -21,23 +21,24 @@
         {% for table in tables %}
             <h3>{{ table }}</h3>
             <table>
-                <tr>
-                    <td>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
                         <label for="iterator{{ table }}">Iterator</label>
-                    </td>
-                    <td>
-                        <select class="custom-select" name="*iterator*{{ table }}" id="iterator{{ table }}">
+                        <select class="custom-select form-control" name="*iterator*{{ table }}"
+                                id="iterator{{ table }}">
                             {% for column in tables[table] %}
                                 <option value="{{ column }}">{{ column }}</option>
                             {% endfor %}
                         </select>
-                    </td>
-                </tr>
-                {% for column in tables[table] %}
-                    <tr>
-                        <td>{{ column }}</td>
-                        <td>
-                            <select name="{{ table }}!?!{{ column }}!?!type" onChange="checkFormValue(this.value, '{{ table }}!?!{{ column }}');" class="col-sm">
+                    </div>
+                </div>
+                <div class="form-row">
+                    {% for column in tables[table] %}
+                        <div class="form-group col-md-3">
+                            <label for="{{ column }}">{{ column }}</label>
+                            <select name="{{ table }}!?!{{ column }}!?!type"
+                                    onChange="checkFormValue(this.value, '{{ table }}!?!{{ column }}');"
+                                    class="custom-select form-control">
                                 <option value="None">No Change</option>
                                 <option value="first_name">first_name</option>
                                 <option value="middle_name">middle_name</option>
@@ -50,15 +51,15 @@
                                 <option value="string">string</option>
                                 <option value="bool">bool</option>
                             </select>
-                            <input 
-                                class="form-control col-sm"
-                                type="text" 
-                                name="{{ table }}!?!{{ column }}!?!data" 
-                                id="{{ table }}!?!{{ column }}"
-                                disabled>
-                        </td>
-                    </tr>
-                {% endfor %}
+                            <input
+                                    class="form-control col-sm disabled"
+                                    type="text"
+                                    name="{{ table }}!?!{{ column }}!?!data"
+                                    id="{{ table }}!?!{{ column }}"
+                                    disabled>
+                        </div>
+                    {% endfor %}
+                </div>
             </table>
         {% endfor %}
         <button type="submit" class="btn btn-primary">Submit</button>
