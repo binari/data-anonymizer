@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 
 # Ignoring config file
-data_anonymizer/config.yml
+config.yml
 
 # C extensions
 *.so

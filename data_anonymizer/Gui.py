@@ -1,5 +1,4 @@
 def gui(host, username, password, database, infile):
-    import data_anonymizer as data
     import io
     from flask import Flask, render_template, url_for, request, session, send_file
     from ruamel.yaml import YAML

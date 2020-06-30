@@ -69,7 +69,7 @@ def get_marvel_location():
 
 
 def get_anonymized_data(column):
-    if column["type"] in ["string", "date", "int"]:
+    if column["type"] in ["string", "date", "int", "bool"]:
         if "data" in column:
             return column["data"]
 
