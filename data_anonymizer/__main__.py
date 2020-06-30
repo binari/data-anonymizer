@@ -69,5 +69,3 @@ if __name__ == '__main__':
     else:
         parser.error("Select either config file (-c/--config) or GUI (-g/--gui)")
         sys.exit()
-
-
