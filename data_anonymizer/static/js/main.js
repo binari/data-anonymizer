@@ -19,3 +19,14 @@ $(document).ready(function () {
         }
     });
 });
+
+function checkFormValue(formValue, id) {
+    const textInput = document.getElementById(id);
+    enableInput = ["bool", "string", "int", "date"];
+    
+    if(enableInput.includes(formValue)) {
+        textInput.disabled = false;
+    } else {
+        textInput.disabled = true;
+    }
+};

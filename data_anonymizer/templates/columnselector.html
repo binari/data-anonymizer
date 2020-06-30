@@ -1,26 +1,43 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
-    </head>
-    <body>
-        <div>
-            <h1>Testing</h1>
-            <form action="{{ url_for('action') }}" method="POST">
-                {% for table in tables %}
-                <h3>{{ table }}</h3>
-                <label for="iterator{{table}}">Iterator</label>
-                <select name="*iterator*{{table}}" id="iterator{{table}}">
-                    {% for column in tables[table] %}
-                    <option value="{{ column }}">{{ column }}</option>
-                    {% endfor %}
-                </select>
-                <table>
-                    {% for column in tables[table] %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
+
+    {# Scripts #}
+    <script type="text/javascript" src="../static/js/jquery.js"></script>
+    <script type="text/javascript" src="../static/js/main.js"></script>
+</head>
+<body>
+<div class="container">
+
+    <div class="vh-1">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../">Table Selector</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Column Selector</li>
+        </ol>
+    </div>
+
+    <form action="{{ url_for('action') }}" method="POST">
+        {% for table in tables %}
+            <h3>{{ table }}</h3>
+            <table>
+                <tr>
+                    <td>
+                        <label for="iterator{{ table }}">Iterator</label>
+                    </td>
+                    <td>
+                        <select class="custom-select" name="*iterator*{{ table }}" id="iterator{{ table }}">
+                            {% for column in tables[table] %}
+                                <option value="{{ column }}">{{ column }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                {% for column in tables[table] %}
                     <tr>
                         <td>{{ column }}</td>
                         <td>
-                            <select name="{{ table }}!?!{{ column }}!?!type">
+                            <select name="{{ table }}!?!{{ column }}!?!type" onChange="checkFormValue(this.value, '{{ table }}!?!{{ column }}');" class="col-sm">
                                 <option value="None">No Change</option>
                                 <option value="first_name">first_name</option>
                                 <option value="middle_name">middle_name</option>
@@ -33,14 +50,19 @@
                                 <option value="string">string</option>
                                 <option value="bool">bool</option>
                             </select>
-                            <input type="text" name="{{ table }}!?!{{ column }}!?!data">
+                            <input 
+                                class="form-control col-sm"
+                                type="text" 
+                                name="{{ table }}!?!{{ column }}!?!data" 
+                                id="{{ table }}!?!{{ column }}"
+                                disabled>
                         </td>
                     </tr>
-                    {% endfor %}
-                </table>
                 {% endfor %}
-                <button type="submit">SUBMIT PLEASE</button>
-            </form>
-        </div>
-    </body>
+            </table>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+</body>
 </html>

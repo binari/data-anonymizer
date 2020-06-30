@@ -1,6 +1,6 @@
 def gui(host, username, password, database, infile):
     import io
-    from flask import Flask, render_template, url_for, request, session, send_file
+    from flask import Flask, render_template, url_for, request, send_file
     from ruamel.yaml import YAML
     import data_anonymizer as data
 
@@ -9,8 +9,6 @@ def gui(host, username, password, database, infile):
 
     anonymizer.populate_database()
     app = Flask(__name__.split('.')[0])
-
-    app.secret_key = b'greghrwr32t54t3wrfewy34'
 
     @app.route('/')
     def root():
@@ -25,7 +23,7 @@ def gui(host, username, password, database, infile):
         tables = {}
         for table in request.form:
             tables[table] = []
-            for column in anonymizer.get_columns('core_users'):
+            for column in anonymizer.get_columns(table):
                 tables[table].append(column[3])
 
         return render_template('columnselector.html', tables=tables)
