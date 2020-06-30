@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/bootstrap.css') }}">
 
     {# Scripts #}
     <script type="text/javascript" src="../static/js/jquery.js"></script>
@@ -52,7 +52,7 @@
                                 <option value="bool">bool</option>
                             </select>
                             <input
-                                    class="form-control col-sm disabled"
+                                    class="form-control disabled"
                                     type="text"
                                     name="{{ table }}!?!{{ column }}!?!data"
                                     id="{{ table }}!?!{{ column }}"
