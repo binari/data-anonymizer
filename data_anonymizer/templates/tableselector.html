@@ -26,7 +26,14 @@
                 {% for table in tables %}
                     <div class="custom-control custom-switch col">
                         <input type="checkbox" class="custom-control-input switch" id="{{ table }}"
-                               name="{{ table }}">
+                               name="{{ table }}"
+                               {% if selected %}
+                                   {% for selected_table in selected %}
+                                       {% if selected_table == table %}
+                                            checked
+                                       {% endif %}
+                                   {% endfor %}
+                               {% endif %}>
                         <label class="custom-control-label" for="{{ table }}">{{ table }}</label>
                     </div>
                 {% endfor %}
