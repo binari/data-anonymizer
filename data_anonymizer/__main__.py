@@ -52,20 +52,33 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='python -m data_anonymizer')
     args = add_arguments(parser)
 
-    if args.configfile is not None:
+    if args.gui is not None:
+        storage = [args.host, args.username, args.password, args.database, args.inputfile]
+
+        if args.configfile:
+            configReader = config(open(args.configfile, 'r'))
+            storage = configReader.storage()
+            validate = [args.inputfile]
+
+            if all(v is None for v in validate):
+                parser.error("Not all arguments defined")
+                sys.exit()
+
+            gui(storage['host'], storage['username'], storage['password'], storage['database'],
+                args.inputfile, args.configfile)
+        else:
+            if all(v is None for v in storage):
+                parser.error("Not all arguments defined")
+                sys.exit()
+
+            gui(args.host, args.username, args.password, args.database, args.inputfile, args.configfile)
+    elif args.configfile:
         configfile = args.configfile
         infile = args.inputfile
         outfile = args.outputfile
 
         validate_file(infile, configfile)
         anonymize(configfile)
-    elif args.gui:
-        storage = [args.host, args.username, args.password, args.database]
-        if all(v is None for v in storage):
-            parser.error("Not all arguments defined")
-            sys.exit()
-
-        gui(args.host, args.username, args.password, args.database, args.inputfile)
     else:
         parser.error("Select either config file (-c/--config) or GUI (-g/--gui)")
         sys.exit()

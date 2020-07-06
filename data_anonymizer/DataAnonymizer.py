@@ -83,8 +83,8 @@ class Anonymize:
             for row in rows:
                 column_data = columns[column]
                 value = get_anonymized_data(column_data)
-                sql = '''UPDATE anonymizer.{} SET {} = '{}' where {} = '{}' '''.format(
-                    table, column, value, iterator, row[0])
+                sql = '''UPDATE {}.{} SET {} = '{}' where {} = '{}' '''.format(
+                    self.database, table, column, value, iterator, row[0])
                 try:
                     self.cursor.execute(sql)
                     self.mysql_connection.commit()
