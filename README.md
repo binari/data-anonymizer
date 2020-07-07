@@ -2,6 +2,12 @@
 
 A Python module that anonymizes SQL dumps
 
+## Requirements
+
+* Python 3
+* Pip
+* MySQL Tools (mysql, mysqldump)
+
 ## Installation
 
 Install the Python module using pip
