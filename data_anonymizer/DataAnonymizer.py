@@ -17,11 +17,12 @@ class Anonymize:
         self.outfile = outfile
 
         self.mysql_connection = self.initialise_database_connection()
+
         if configfile is not None:
             self.config = config(open(configfile, 'r'))
         self.cursor = self.mysql_connection.cursor(buffered=True)
 
-        ############################# TEMP
+        self.create_database()
         self.cursor.execute("use {}".format(self.database))
 
     def initialise_database_connection(self):
@@ -31,10 +32,12 @@ class Anonymize:
             password=self.password
         )
 
-    def populate_database(self):
+    def create_database(self):
         self.cursor.execute("drop database if exists {}".format(self.database))
         self.cursor.execute("create database {}".format(self.database))
         self.mysql_connection.commit()
+
+    def populate_database(self):
         self.cursor.execute("use {}".format(self.database))
 
         with open(self.infile, 'r') as f:
