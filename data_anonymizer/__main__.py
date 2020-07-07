@@ -52,7 +52,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='python -m data_anonymizer')
     args = add_arguments(parser)
 
-    if args.gui is not None:
+    if args.gui:
         storage = [args.host, args.username, args.password, args.database, args.inputfile]
 
         if args.configfile:
@@ -73,6 +73,11 @@ if __name__ == '__main__':
 
             gui(args.host, args.username, args.password, args.database, args.inputfile, args.configfile)
     elif args.configfile:
+
+        if args.inputfile is None or args.outputfile is None:
+            parser.error("Not all arguments defined")
+            sys.exit()
+
         configfile = args.configfile
         infile = args.inputfile
         outfile = args.outputfile
