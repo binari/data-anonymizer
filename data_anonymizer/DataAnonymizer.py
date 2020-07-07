@@ -75,7 +75,7 @@ class Anonymize:
         tables = self.config.tables()
 
         for table in tables:
-            self.cursor.execute("select * from anonymizer.{}".format(table))
+            self.cursor.execute("select * from {}.{}".format(self.database, table))
             rows = self.cursor.fetchall()
             columns = self.config.columns(table)
             iterator = self.config.iterator(table)
